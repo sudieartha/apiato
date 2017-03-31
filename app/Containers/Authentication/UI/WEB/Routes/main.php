@@ -1,17 +1,19 @@
 <?php
 
 // TODO: these needs to be separated into multiple routes files
-$router->group(['domain' => 'admin.'. parse_url(\Config::get('app.url'))['host']], function ($router) {
 
-    $router->get('/', [
+Route::group(['domain' => 'admin.'. parse_url(\Config::get('app.url'))['host']], function ($router) {
+
+
+    Route::get('/', [
         'uses' => 'Controller@showLoginPage',
     ]);
 
-    $router->get('/login', [
+    Route::get('/login', [
         'uses' => 'Controller@showLoginPage',
     ]);
 
-    $router->post('/login', [
+    Route::post('/login', [
         'as'   => 'admin_login',
         'uses' => 'Controller@loginAdmin',
     ]);
@@ -21,7 +23,7 @@ $router->group(['domain' => 'admin.'. parse_url(\Config::get('app.url'))['host']
         'uses' => 'Controller@logoutAdmin',
     ]);
 
-    $router->get('/dashboard', [
+    Route::get('/dashboard', [
         'uses'       => 'Controller@viewDashboardPage',
         'middleware' => [
             'web.auth'

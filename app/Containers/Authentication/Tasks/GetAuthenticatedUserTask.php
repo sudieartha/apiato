@@ -13,9 +13,8 @@ use Illuminate\Auth\AuthManager as Auth;
  */
 class GetAuthenticatedUserTask extends Task
 {
-
     /**
-     * @var  \Illuminate\Auth\AuthManager
+     * @var \Illuminate\Auth\AuthManager
      */
     private $auth;
 
@@ -36,6 +35,7 @@ class GetAuthenticatedUserTask extends Task
      * @param null $token
      *
      * @return mixed
+     * @throws \App\Containers\Authentication\Exceptions\AuthenticationFailedException
      */
     public function run($token = null)
     {
@@ -43,7 +43,8 @@ class GetAuthenticatedUserTask extends Task
             throw new AuthenticationFailedException('User is not logged in.');
         }
 
-        return $token ? $user->injectToken($token) : $user;
-    }
+        return $user;
 
+        // return $token ? $user->injectToken($token) : $user;
+    }
 }

@@ -3,9 +3,9 @@
 namespace App\Containers\Authentication\Providers;
 
 use App\Ship\Parents\Providers\MainProvider;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Facades\JWTFactory;
-use Tymon\JWTAuth\Providers\JWTAuthServiceProvider;
+//use Tymon\JWTAuth\Facades\JWTAuth;
+//use Tymon\JWTAuth\Facades\JWTFactory;
+//use Tymon\JWTAuth\Providers\JWTAuthServiceProvider;
 
 /**
  * Class MainServiceProvider.
@@ -23,7 +23,7 @@ class MainServiceProvider extends MainProvider
      * @var array
      */
     public $serviceProviders = [
-        JWTAuthServiceProvider::class,
+//        JWTAuthServiceProvider::class,
         MiddlewareServiceProvider::class
     ];
 
@@ -33,8 +33,8 @@ class MainServiceProvider extends MainProvider
      * @var  array
      */
     public $aliases = [
-        'JWTAuth'    => JWTAuth::class,
-        'JWTFactory' => JWTFactory::class,
+//        'JWTAuth'    => JWTAuth::class,
+//        'JWTFactory' => JWTFactory::class,
     ];
 
 }

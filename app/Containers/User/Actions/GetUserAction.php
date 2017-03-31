@@ -6,6 +6,7 @@ use App\Containers\Authentication\Tasks\GetAuthenticatedUserTask;
 use App\Containers\User\Exceptions\UserNotFoundException;
 use App\Containers\User\Tasks\FindUserByIdTask;
 use App\Ship\Parents\Actions\Action;
+use Auth;
 
 /**
  * Class GetUserAction.
@@ -14,20 +15,45 @@ use App\Ship\Parents\Actions\Action;
  */
 class GetUserAction extends Action
 {
+    /**
+     * @var \App\Containers\User\Tasks\FindUserByIdTask
+     */
+    private $findUserByIdTask;
 
     /**
-     * @param      $userId
-     * @param null $token
+     * @var \App\Containers\Authentication\Tasks\GetAuthenticatedUserTask
+     */
+    private $getAuthenticatedUserTask;
+
+    /**
+     * GetUserAction constructor.
+     *
+     * @param \App\Containers\User\Tasks\FindUserByIdTask                   $findUserByIdTask
+     * @param \App\Containers\Authentication\Tasks\GetAuthenticatedUserTask $getAuthenticatedUserTask
+     */
+    public function __construct(
+        FindUserByIdTask $findUserByIdTask,
+        GetAuthenticatedUserTask $getAuthenticatedUserTask
+    ) {
+        $this->findUserByIdTask = $findUserByIdTask;
+        $this->getAuthenticatedUserTask = $getAuthenticatedUserTask;
+    }
+
+    /**
+     * @param $userId
      *
      * @return  mixed
+     * @throws \App\Containers\User\Exceptions\UserNotFoundException
      */
-    public function run($userId, $token = null)
+    public function run($userId)
     {
         if ($userId) {
-            $user = $this->call(FindUserByIdTask::class, [$userId])->withToken();
+
+            $user = $this->call(FindUserByIdTask::class, [$userId]);
         } else {
-            if ($token) {
-                $user = $this->call(GetAuthenticatedUserTask::class, [])->withToken();
+            if (Auth::check()) {
+                $user = $this->call(GetAuthenticatedUserTask::class);
+
             }
         }
 
@@ -37,5 +63,4 @@ class GetUserAction extends Action
 
         return $user;
     }
-
 }

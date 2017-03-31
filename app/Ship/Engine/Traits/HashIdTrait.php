@@ -4,8 +4,8 @@ namespace App\Ship\Engine\Traits;
 
 use App\Ship\Features\Exceptions\IncorrectIdException;
 use Illuminate\Support\Facades\Config;
-use Route;
 use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Class HashIdTrait.
@@ -14,10 +14,10 @@ use Vinkla\Hashids\Facades\Hashids;
  */
 trait HashIdTrait
 {
-
     /**
-     * endpoint to be skipped from decoding their ID's (example for external ID's)
-     * @var  array
+     * endpoint to be skipped from decoding their ID's (example for external ID's).
+     *
+     * @var array
      */
     private $skippedEndpoints = [
 //        'orders/{id}/external',
@@ -28,7 +28,7 @@ trait HashIdTrait
      *
      * @param null $key
      *
-     * @return  mixed
+     * @return mixed
      */
     public function getHashedKey($key = null)
     {
@@ -42,12 +42,13 @@ trait HashIdTrait
 
     /**
      * without decoding the encoded ID's you won't be able to use
-     * validation features like `exists:table,id`
+     * validation features like `exists:table,id`.
      *
      * @param array $requestData
      *
-     * @return  array
+     * @return array
      */
+
     protected function decodeHashedIdsBeforeValidation(Array $requestData)
     {
         // the hash ID feature must be enabled to use this decoder feature.
@@ -55,6 +56,7 @@ trait HashIdTrait
             // iterate over each key (ID that needs to be decoded) and call keys locator to decode them
             foreach ($this->decode as $key) {
                 $requestData = $this->locateAndDecodeIds($requestData, $key);
+
             }
         }
 
@@ -206,9 +208,10 @@ trait HashIdTrait
     }
 
     /**
+
      * @param array $ids
      *
-     * @return  array
+     * @return array
      */
     public function decodeArray(array $ids)
     {
@@ -225,20 +228,20 @@ trait HashIdTrait
      * @param null $parameter
      *
      * @return  array
+
      */
     public function decode($id, $parameter = null)
     {
         if (is_numeric($id)) {
             throw new IncorrectIdException('Only Hashed ID\'s allowed' . (!is_null($parameter) ? " ($parameter)." : '.'));
         }
-
         return empty($this->decoder($id)) ? [] : $this->decoder($id)[0];
     }
 
     /**
      * @param $id
      *
-     * @return  mixed
+     * @return mixed
      */
     public function encode($id)
     {
@@ -248,7 +251,7 @@ trait HashIdTrait
     /**
      * @param $id
      *
-     * @return  mixed
+     * @return mixed
      */
     private function decoder($id)
     {
@@ -258,7 +261,7 @@ trait HashIdTrait
     /**
      * @param $id
      *
-     * @return  mixed
+     * @return mixed
      */
     public function encoder($id)
     {
@@ -291,5 +294,4 @@ trait HashIdTrait
             });
         }
     }
-
 }
